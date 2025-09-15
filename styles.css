@@ -1,0 +1,142 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Fredoka', sans-serif;
+    margin: 0;
+}
+
+body {
+    background-color: #f0f0f0;
+}
+
+header {
+    align-items: center;
+    background-color: #007BFF;
+    color: #fff;
+    display: flex;
+    height: 80px;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+main {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    margin: 30px auto;
+    width: 100%;
+}
+
+.calendari {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(5, minmax(300px, 1fr));
+}
+
+.mes {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    min-height: 370px;
+    padding: 1rem;
+    position: relative;
+}
+
+.mes h2 {
+    border-radius: 4px;
+    box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.2);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding: 5px;
+    text-align: center;
+}
+
+.dies {
+    display: grid;
+    font-size: 1rem;
+    gap: 5px;
+    grid-template-columns: repeat(6, 1fr);
+    text-align: center;
+}
+
+.nom-dia {
+    background: #f0f0f0;
+    border-radius: 4px;
+    font-weight: bold;
+    padding: 0.3rem;
+}
+
+.dia {
+    border-radius: 4px;
+    cursor: default;
+    padding: 0.5rem;
+}
+
+.dia.avui {
+    background: #007BFF;
+    color: white;
+    font-weight: bold;
+}
+
+.dia.festiu {
+    background: #ff0000;
+    color: white;
+    font-weight: bold;
+}
+
+.dia.tick {
+    background-color: #8dffa8;
+    color: #155724;
+    font-weight: bold;
+}
+
+.dia.completat {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+}
+
+.mes-completat {
+    background-color: #d4edda;
+    border-radius: 4px;
+    bottom: 10px;
+    color: #155724;
+    font-weight: bold;
+    left: 50%;
+    padding: 5px;
+    position: absolute;
+    text-align: center;
+    transform: translateX(-50%);
+    max-width: 260px;
+    width: 90%;
+}
+
+@media (max-width: 1200px) {
+    .calendari {
+        grid-template-columns: repeat(3, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .calendari {
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .calendari {
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .calendari {
+        grid-template-columns: 2fr;
+    }
+    .mes-completat {
+        width: 95%;
+    }
+}
