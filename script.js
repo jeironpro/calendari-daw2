@@ -136,7 +136,9 @@ function generarCalendari(inici, fi) {
                 if (festius.includes(diaStr)) {
                     diaDiv.classList.add("festiu");
                 } else {
-                    if (araEspanya >= aquestaFecha && araEspanya.getHours() >= 21) {
+                    if (aquestaFecha < new Date(araEspanya.getFullYear(), araEspanya.getMonth(), araEspanya.getDate())) {
+                        diaDiv.classList.add("completat");
+                    } else if (aquestaFecha.toDateString() === araEspanya.toDateString() && araEspanya.getHours() >= 21) {
                         diaDiv.classList.add("completat");
                     }
                 }
