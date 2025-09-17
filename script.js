@@ -37,7 +37,7 @@ const nomMesos = [
 const nomDies = ["DL","DM","DC","DJ","DV"];
 
 const dataInici = new Date("2025-09-15");
-const datafial = new Date("2026-05-22");
+const dataFinal = new Date("2026-05-22");
 
 function generarCalendari(inici, fi) {
     const contenedor = document.getElementById("calendari");
@@ -234,5 +234,5 @@ function generarCalendari(inici, fi) {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    generarCalendari(dataInici, datafial);
+    generarCalendari(dataInici, dataFinal);
 })
