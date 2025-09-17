@@ -1,32 +1,32 @@
 const festius = [
-    "24/9/2025",
-    "10/10/2025",
-    "3/11/2025",
-    "8/12/2025",
-    "22/12/2025",
-    "23/12/2025",
-    "24/12/2025",
-    "25/12/2025",
-    "26/12/2025",
-    "27/12/2025",
-    "28/12/2025",
-    "29/12/2025",
-    "30/12/2025",
-    "31/12/2025",
-    "1/1/2026",
-    "2/1/2026",
-    "5/1/2026",
-    "6/1/2026",
-    "7/1/2026",
-    "16/2/2026",
-    "30/3/2026",
-    "31/3/2026",
-    "1/4/2026",
-    "2/4/2026",
-    "3/4/2026",
-    "6/4/2026",
-    "1/5/2026",
-    "4/5/2026",
+    {data: "24/9/2025", motiu: "Mare de Déu de la Mercè"},
+    {data: "10/10/2025", motiu: "1r dia de lliure disposició"},
+    {data: "3/11/2025", motiu: "2n día de lliure disposició"},
+    {data: "8/12/2025", motiu: "La inmaculada"},
+    {data: "22/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "23/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "24/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "25/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "26/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "27/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "28/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "29/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "30/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "31/12/2025", motiu: "Vacandes de Nadal"},
+    {data: "1/1/2026", motiu: "Vacandes de Nadal"},
+    {data: "2/1/2026", motiu: "Vacandes de Nadal"},
+    {data: "5/1/2026", motiu: "Vacandes de Nadal"},
+    {data: "6/1/2026", motiu: "Vacandes de Nadal"},
+    {data: "7/1/2026", motiu: "Vacandes de Nadal"},
+    {data: "16/2/2026", motiu: "3r dia de lliure disposició"},
+    {data: "30/3/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "31/3/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "1/4/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "2/4/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "3/4/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "6/4/2026", motiu: "Vacances de Setmana Santa"},
+    {data: "1/5/2026", motiu: "Festa del treball"},
+    {data: "4/5/2026", motiu: "4t dia de lliure disposició"},
 ]
 
 const nomMesos = [
@@ -97,6 +97,7 @@ function generarCalendari(inici, fi) {
 
         const diesEnMes = new Date(actual.getFullYear(), actual.getMonth() + 1, 0).getDate();
         let primerDiaCalculat = false;
+        let avuiSeguent = false;
         let columnaSetmana = 0;
         const setmanesTicks = [];
 
@@ -133,14 +134,29 @@ function generarCalendari(inici, fi) {
                 }
 
                 const diaStr = `${d}/${actual.getMonth()+1}/${actual.getFullYear()}`;
-                if (festius.includes(diaStr)) {
-                    diaDiv.classList.add("festiu");
-                } else {
-                    if (aquestaFecha < new Date(araEspanya.getFullYear(), araEspanya.getMonth(), araEspanya.getDate())) {
-                        diaDiv.classList.add("completat");
-                    } else if (aquestaFecha.toDateString() === araEspanya.toDateString() && araEspanya.getHours() >= 21) {
-                        diaDiv.classList.add("completat");
+                for (let i = 0; i < festius.length; i++) {
+                    if (festius[i].data === diaStr) {
+                        diaDiv.classList.add("festiu");
+                        diaDiv.setAttribute("data-motiu", festius[i].motiu);
+                    } else {
+                        if (aquestaFecha < new Date(araEspanya.getFullYear(), araEspanya.getMonth(), araEspanya.getDate())) {
+                            diaDiv.classList.add("completat");
+                            diaDiv.setAttribute("data-completat", "Completat");
+                        } else if (aquestaFecha.toDateString() === araEspanya.toDateString() && araEspanya.getHours() >= 21) {
+                            diaDiv.classList.add("completat");
+                            diaDiv.setAttribute("data-completat", "Completat");
+                        }
                     }
+                }
+
+                if (diaDiv.classList.contains("avui") && diaDiv.classList.contains("completat")) {
+                    diaDiv.classList.remove("avui");
+                    avuiSeguent = true;
+                }
+
+                if (avuiSeguent && !diaDiv.classList.contains("completat")) {
+                    diaDiv.classList.add("avui");
+                    avuiSeguent = false;
                 }
 
                 diesGrid.appendChild(diaDiv);
