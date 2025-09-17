@@ -71,6 +71,8 @@ function generarCalendari(inici, fi) {
     });
 
     const araEspanya = new Date(any, mes, dia, hora, minut, segon);
+    let comptadorSetmana = 1;
+    let bloqueSetmana = 0;
 
     while (actual <= fi) {
         const mesDiv = document.createElement("div");
@@ -92,14 +94,14 @@ function generarCalendari(inici, fi) {
 
         const tickHeader = document.createElement("div");
         tickHeader.className = "nom-dia";
-        tickHeader.textContent = "✔";
+        tickHeader.textContent = "Nº";
         diesGrid.appendChild(tickHeader);
 
         const diesEnMes = new Date(actual.getFullYear(), actual.getMonth() + 1, 0).getDate();
         let primerDiaCalculat = false;
         let avuiSeguent = false;
         let columnaSetmana = 0;
-        const setmanesTicks = [];
+        const setmanesCompletats = [];
 
         for (let d = 1; d <= diesEnMes; d++) {
             if (actual.getFullYear() === inici.getFullYear() &&
@@ -109,11 +111,11 @@ function generarCalendari(inici, fi) {
             }
 
             const aquestaFecha = new Date(actual.getFullYear(), actual.getMonth(), d);
-            const diesetmana = (aquestaFecha.getDay() + 6) % 7;
+            const dieSetmana = (aquestaFecha.getDay() + 6) % 7;
 
-            if (diesetmana < 5) {
+            if (dieSetmana < 5) {
                 if (!primerDiaCalculat) {
-                    for (let i = 0; i < diesetmana; i++) {
+                    for (let i = 0; i < dieSetmana; i++) {
                         const buida = document.createElement("div");
                         diesGrid.appendChild(buida);
                         columnaSetmana++;
@@ -125,27 +127,26 @@ function generarCalendari(inici, fi) {
                 diaDiv.className = "dia";
                 diaDiv.textContent = d;
 
-                if (aquestaFecha.toDateString() === araEspanya.toDateString()) { 
-                    diaDiv.classList.add("avui"); 
+                if (aquestaFecha.toDateString() === araEspanya.toDateString()) {
+                    diaDiv.classList.add("avui");
                 }
 
-                if (aquestaFecha > fi) { 
-                    break; 
+                if (aquestaFecha > fi) {
+                    break;
                 }
 
                 const diaStr = `${d}/${actual.getMonth()+1}/${actual.getFullYear()}`;
-                for (let i = 0; i < festius.length; i++) {
-                    if (festius[i].data === diaStr) {
-                        diaDiv.classList.add("festiu");
-                        diaDiv.setAttribute("data-motiu", festius[i].motiu);
-                    } else {
-                        if (aquestaFecha < new Date(araEspanya.getFullYear(), araEspanya.getMonth(), araEspanya.getDate())) {
-                            diaDiv.classList.add("completat");
-                            diaDiv.setAttribute("data-completat", "Completat");
-                        } else if (aquestaFecha.toDateString() === araEspanya.toDateString() && araEspanya.getHours() >= 21) {
-                            diaDiv.classList.add("completat");
-                            diaDiv.setAttribute("data-completat", "Completat");
-                        }
+                const festiu = festius.find(f => f.data === diaStr);
+                if (festiu) {
+                    diaDiv.classList.add("festiu");
+                    diaDiv.setAttribute("data-motiu", festiu.motiu);
+                } else {
+                    if (aquestaFecha < new Date(araEspanya.getFullYear(), araEspanya.getMonth(), araEspanya.getDate())) {
+                        diaDiv.classList.add("completat");
+                        diaDiv.setAttribute("data-completat", "Completat");
+                    } else if (aquestaFecha.toDateString() === araEspanya.toDateString() && araEspanya.getHours() >= 21) {
+                        diaDiv.classList.add("completat");
+                        diaDiv.setAttribute("data-completat", "Completat");
                     }
                 }
 
@@ -153,7 +154,6 @@ function generarCalendari(inici, fi) {
                     diaDiv.classList.remove("avui");
                     avuiSeguent = true;
                 }
-
                 if (avuiSeguent && !diaDiv.classList.contains("completat")) {
                     diaDiv.classList.add("avui");
                     avuiSeguent = false;
@@ -161,7 +161,8 @@ function generarCalendari(inici, fi) {
 
                 diesGrid.appendChild(diaDiv);
                 columnaSetmana++;
-
+                bloqueSetmana++;
+                
                 if (columnaSetmana === 5 || d === diesEnMes) {
                     while (columnaSetmana < 5) {
                         const buida = document.createElement("div");
@@ -169,26 +170,48 @@ function generarCalendari(inici, fi) {
                         columnaSetmana++;
                     }
 
-                    const tickDiv = document.createElement("div");
-
+                    const numSetmanaDiv = document.createElement("div");
+                    
                     const dillunsSetmana = new Date(aquestaFecha);
-                    dillunsSetmana.setDate(aquestaFecha.getDate() - diesetmana);
-
+                    dillunsSetmana.setDate(aquestaFecha.getDate() - dieSetmana);
+                    
                     const divendresSetmana = new Date(dillunsSetmana);
                     divendresSetmana.setDate(dillunsSetmana.getDate() + 4);
 
-                    let setmanaCompletada = false;
-
-                    if (araEspanya.getDay() === 5 && araEspanya.getHours() >= 21) {
-                        if (araEspanya >= dillunsSetmana && araEspanya <= divendresSetmana) {
-                            tickDiv.className = "dia tick";
-                            tickDiv.textContent = "✓";
-                            setmanaCompletada = true;
+                    let comptadorFestiu = 0;
+                    for (let j = 0; j < 5; j++) {
+                        const diaComplet = new Date(dillunsSetmana);
+                        diaComplet.setDate(dillunsSetmana.getDate() + j);
+                        
+                        const diaCompletStr = `${diaComplet.getDate()}/${diaComplet.getMonth() + 1}/${diaComplet.getFullYear()}`;
+                        if (festius.find(f => f.data === diaCompletStr)) {
+                            comptadorFestiu++;
+                        }
+                    }
+                    
+                    if (comptadorFestiu === 5) {
+                        numSetmanaDiv.textContent = "";
+                    } else {
+                        
+                        if (bloqueSetmana >= 5 && comptadorSetmana <= 33) {
+                            numSetmanaDiv.className = "setmana num";
+                            numSetmanaDiv.textContent = comptadorSetmana;
+                            comptadorSetmana++;
+                            bloqueSetmana = 0;
+                        } else {
+                            numSetmanaDiv.textContent = "";
                         }
                     }
 
-                    setmanesTicks.push(setmanaCompletada);
-                    diesGrid.appendChild(tickDiv);
+                    let setmanaCompletada = false;
+                    if (araEspanya.getDay() === 5 && araEspanya.getHours() >= 21) {
+                        if (araEspanya >= dillunsSetmana && araEspanya <= divendresSetmana) {
+                            setmanaCompletada = true;
+                        }
+                    }
+                    setmanesCompletats.push(setmanaCompletada);
+
+                    diesGrid.appendChild(numSetmanaDiv);
                     columnaSetmana = 0;
                 }
             }
@@ -198,7 +221,7 @@ function generarCalendari(inici, fi) {
 
         const mesTickDiv = document.createElement("div");
         mesTickDiv.className = "mes-completat";
-        if (setmanesTicks.length > 0 && setmanesTicks.every(s => s)) {
+        if (setmanesCompletats.length > 0 && setmanesCompletats.every(s => s)) {
             mesTickDiv.textContent = "Mes completat";
         } else {
             mesTickDiv.textContent = "";
