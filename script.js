@@ -273,32 +273,3 @@ function generarCalendari(inici, fi) {
 document.addEventListener("DOMContentLoaded", function() {
     generarCalendari(dataInici, dataFinal);
 });
-
-// const modalDiv = document.createElement("div");
-// modalDiv.classList.add("modal");
-
-// const cerrarModal = document.createElement("span");
-// cerrarModal.innerHTML = "&times;";
-// cerrarModal.classList.add("cerrar-modal");
-// modalDiv.appendChild(cerrarModal);
-
-// const modalImage = document.createElement("img");
-// modalImage.classList.add("modal-image");
-// modalDiv.appendChild(modalImage);
-
-// document.body.appendChild(modalDiv);
-
-// const horariModal = document.querySelectorAll(".nom-dia");
-
-// horariModal.forEach(dia => {
-//     dia.addEventListener("click", () => {
-//         const fontImage = dia.getAttribute('data-img');
-//         modalImage.src = fontImage;
-//         modalDiv.style.display = "flex";
-//     });
-// });
-
-// cerrarModal.addEventListener("click", () => {
-//     modalDiv.style.display = "none";
-//     modalImage.src = "";
-// });
