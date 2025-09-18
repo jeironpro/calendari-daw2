@@ -1,3 +1,30 @@
+let modalDiv = document.querySelector(".modal");
+
+if (!modalDiv) {
+    modalDiv = document.createElement("div");
+    modalDiv.classList.add("modal");
+
+    const modalContingut = document.createElement("div");
+    modalContingut.classList.add("contingut-modal");
+    modalDiv.appendChild(modalContingut);
+    
+    const cerrarModal = document.createElement("button");
+    cerrarModal.innerHTML = "&times;";
+    cerrarModal.classList.add("cerrar-modal");
+    modalContingut.appendChild(cerrarModal);
+    
+    const modalImage = document.createElement("img");
+    modalImage.classList.add("modal-image");
+    modalContingut.appendChild(modalImage);
+    
+    document.body.appendChild(modalDiv);
+    
+    cerrarModal.addEventListener("click", () => {
+        modalDiv.style.display = "none";
+        modalImage.src = "";
+    });
+}
+
 const festius = [
     {data: "24/9/2025", motiu: "Mare de Déu de la Mercè"},
     {data: "10/10/2025", motiu: "1r dia de lliure disposició"},
@@ -89,6 +116,12 @@ function generarCalendari(inici, fi) {
             const dn = document.createElement("div");
             dn.className = "nom-dia";
             dn.textContent = d;
+            dn.setAttribute("data-img", `img/${d.toLowerCase()}.png`);
+            dn.addEventListener("click", () => {
+                const modalImage = modalDiv.querySelector(".modal-image");
+                modalImage.src = dn.getAttribute("data-img");
+                modalDiv.style.display = "flex";
+            });
             diesGrid.appendChild(dn);
         });
 
@@ -240,3 +273,32 @@ function generarCalendari(inici, fi) {
 document.addEventListener("DOMContentLoaded", function() {
     generarCalendari(dataInici, dataFinal);
 });
+
+// const modalDiv = document.createElement("div");
+// modalDiv.classList.add("modal");
+
+// const cerrarModal = document.createElement("span");
+// cerrarModal.innerHTML = "&times;";
+// cerrarModal.classList.add("cerrar-modal");
+// modalDiv.appendChild(cerrarModal);
+
+// const modalImage = document.createElement("img");
+// modalImage.classList.add("modal-image");
+// modalDiv.appendChild(modalImage);
+
+// document.body.appendChild(modalDiv);
+
+// const horariModal = document.querySelectorAll(".nom-dia");
+
+// horariModal.forEach(dia => {
+//     dia.addEventListener("click", () => {
+//         const fontImage = dia.getAttribute('data-img');
+//         modalImage.src = fontImage;
+//         modalDiv.style.display = "flex";
+//     });
+// });
+
+// cerrarModal.addEventListener("click", () => {
+//     modalDiv.style.display = "none";
+//     modalImage.src = "";
+// });
