@@ -199,6 +199,7 @@ function generarCalendari(inici, fi) {
                         if (bloqueSetmana >= 5 && comptadorSetmana <= 33) {
                             numSetmanaDiv.className = "setmana num";
                             numSetmanaDiv.textContent = comptadorSetmana;
+                            numSetmanaDiv.setAttribute("data-setmana", `Setmana ${comptadorSetmana}`);
                             comptadorSetmana++;
                             bloqueSetmana = 0;
                         } else {

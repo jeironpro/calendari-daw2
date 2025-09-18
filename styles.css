@@ -91,9 +91,17 @@ main {
     position: relative;
 }
 
+.setmana.num {
+    background-color: #8dffa8;
+    color: #155724;
+    font-weight: bold;
+    position: relative;
+}
+
 .dia.festiu::after,
 .dia.completat::after,
-.dia.avui::after {
+.dia.avui::after,
+.setmana.num::after {
     border-radius: 4px;
     bottom: 125%;
     color: #000;
@@ -123,18 +131,19 @@ main {
     content: attr(data-actual);
 }
 
+.setmana.num::after {
+    background-color: #c2ffd0;;
+    content: attr(data-setmana);
+}
+
 .dia.festiu:hover::after,
 .dia.completat:hover::after,
-.dia.avui:hover::after {
+.dia.avui:hover::after,
+.setmana.num:hover::after {
     opacity: 1;
     visibility: visible;
 }
 
-.setmana.num {
-    background-color: #8dffa8;
-    color: #155724;
-    font-weight: bold;
-}
 
 .dia.completat {
     background-color: #d4edda;
