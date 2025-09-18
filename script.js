@@ -92,10 +92,10 @@ function generarCalendari(inici, fi) {
             diesGrid.appendChild(dn);
         });
 
-        const tickHeader = document.createElement("div");
-        tickHeader.className = "nom-dia";
-        tickHeader.textContent = "Nº";
-        diesGrid.appendChild(tickHeader);
+        const capcaleraNumSetmana = document.createElement("div");
+        capcaleraNumSetmana.className = "num-setmana";
+        capcaleraNumSetmana.textContent = "Nº";
+        diesGrid.appendChild(capcaleraNumSetmana);
 
         const diesEnMes = new Date(actual.getFullYear(), actual.getMonth() + 1, 0).getDate();
         let primerDiaCalculat = false;
@@ -129,6 +129,7 @@ function generarCalendari(inici, fi) {
 
                 if (aquestaFecha.toDateString() === araEspanya.toDateString()) {
                     diaDiv.classList.add("avui");
+                    diaDiv.setAttribute("data-actual", "Avui");
                 }
 
                 if (aquestaFecha > fi) {
@@ -152,10 +153,12 @@ function generarCalendari(inici, fi) {
 
                 if (diaDiv.classList.contains("avui") && diaDiv.classList.contains("completat")) {
                     diaDiv.classList.remove("avui");
+                    diaDiv.removeAttribute("data-actual");
                     avuiSeguent = true;
                 }
                 if (avuiSeguent && !diaDiv.classList.contains("completat")) {
                     diaDiv.classList.add("avui");
+                    diaDiv.setAttribute("data-actual", "Avui");
                     avuiSeguent = false;
                 }
 
@@ -219,14 +222,14 @@ function generarCalendari(inici, fi) {
 
         mesDiv.appendChild(diesGrid);
 
-        const mesTickDiv = document.createElement("div");
-        mesTickDiv.className = "mes-completat";
+        const mesCompletat = document.createElement("div");
+        mesCompletat.className = "mes-completat";
         if (setmanesCompletats.length > 0 && setmanesCompletats.every(s => s)) {
-            mesTickDiv.textContent = "Mes completat";
+            mesCompletat.textContent = "Mes completat";
         } else {
-            mesTickDiv.textContent = "";
+            mesCompletat.textContent = "";
         }
-        mesDiv.appendChild(mesTickDiv);
+        mesDiv.appendChild(mesCompletat);
 
         contenedor.appendChild(mesDiv);
         actual.setMonth(actual.getMonth() + 1);
@@ -235,4 +238,4 @@ function generarCalendari(inici, fi) {
 
 document.addEventListener("DOMContentLoaded", function() {
     generarCalendari(dataInici, dataFinal);
-})
+});

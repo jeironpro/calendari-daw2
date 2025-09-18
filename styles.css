@@ -62,7 +62,8 @@ main {
     text-align: center;
 }
 
-.nom-dia {
+.nom-dia,
+.num-setmana {
     background: #f0f0f0;
     border-radius: 4px;
     font-weight: bold;
@@ -80,6 +81,7 @@ main {
     background: #007BFF;
     color: #fff;
     font-weight: bold;
+    position: relative;
 }
 
 .dia.festiu {
@@ -90,7 +92,8 @@ main {
 }
 
 .dia.festiu::after,
-.dia.completat::after {
+.dia.completat::after,
+.dia.avui::after {
     border-radius: 4px;
     bottom: 125%;
     color: #000;
@@ -115,8 +118,14 @@ main {
     content: attr(data-completat);
 }
 
+.dia.avui::after {
+    background-color: #afd6ff;
+    content: attr(data-actual);
+}
+
 .dia.festiu:hover::after,
-.dia.completat:hover::after {
+.dia.completat:hover::after,
+.dia.avui:hover::after {
     opacity: 1;
     visibility: visible;
 }
