@@ -43,6 +43,7 @@ main {
     min-height: 380px;
     padding: 1rem;
     position: relative;
+    user-select: none;
 }
 
 .mes h2 {
