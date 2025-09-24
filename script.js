@@ -189,7 +189,7 @@ function generarCalendari(inici, fi) {
                     diaDiv.removeAttribute("data-actual");
                     avuiSeguent = true;
                 }
-                if (avuiSeguent && !diaDiv.classList.contains("completat")) {
+                if (avuiSeguent && !diaDiv.classList.contains("completat") && !diaDiv.classList.contains("festiu")) {
                     diaDiv.classList.add("avui");
                     diaDiv.setAttribute("data-actual", "Avui");
                     avuiSeguent = false;
