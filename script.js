@@ -134,7 +134,6 @@ function generarCalendari(inici, fi) {
         let primerDiaCalculat = false;
         let avuiSeguent = false;
         let columnaSetmana = 0;
-        const setmanesCompletats = [];
 
         for (let d = 1; d <= diesEnMes; d++) {
             if (actual.getFullYear() === inici.getFullYear() &&
@@ -171,6 +170,7 @@ function generarCalendari(inici, fi) {
 
                 const diaStr = `${d}/${actual.getMonth()+1}/${actual.getFullYear()}`;
                 const festiu = festius.find(f => f.data === diaStr);
+                
                 if (festiu) {
                     diaDiv.classList.add("festiu");
                     diaDiv.setAttribute("data-motiu", festiu.motiu);
@@ -189,6 +189,7 @@ function generarCalendari(inici, fi) {
                     diaDiv.removeAttribute("data-actual");
                     avuiSeguent = true;
                 }
+
                 if (avuiSeguent && !diaDiv.classList.contains("completat") && !diaDiv.classList.contains("festiu")) {
                     diaDiv.classList.add("avui");
                     diaDiv.setAttribute("data-actual", "Avui");
@@ -220,6 +221,7 @@ function generarCalendari(inici, fi) {
                         diaComplet.setDate(dillunsSetmana.getDate() + j);
                         
                         const diaCompletStr = `${diaComplet.getDate()}/${diaComplet.getMonth() + 1}/${diaComplet.getFullYear()}`;
+
                         if (festius.find(f => f.data === diaCompletStr)) {
                             comptadorFestiu++;
                         }
@@ -239,15 +241,7 @@ function generarCalendari(inici, fi) {
                             numSetmanaDiv.textContent = "";
                         }
                     }
-
-                    let setmanaCompletada = false;
-                    if (araEspanya.getDay() === 5 && araEspanya.getHours() >= 21) {
-                        if (araEspanya >= dillunsSetmana && araEspanya <= divendresSetmana) {
-                            setmanaCompletada = true;
-                        }
-                    }
-                    setmanesCompletats.push(setmanaCompletada);
-
+                    
                     diesGrid.appendChild(numSetmanaDiv);
                     columnaSetmana = 0;
                 }
@@ -258,11 +252,13 @@ function generarCalendari(inici, fi) {
 
         const mesCompletat = document.createElement("div");
         mesCompletat.className = "mes-completat";
-        if (setmanesCompletats.length > 0 && setmanesCompletats.every(s => s)) {
+        
+        if (actual.getFullYear() <= araEspanya.getFullYear() && actual.getMonth() < araEspanya.getMonth()) {
             mesCompletat.textContent = "Mes completat";
         } else {
             mesCompletat.textContent = "";
         }
+        
         mesDiv.appendChild(mesCompletat);
 
         contenedor.appendChild(mesDiv);
